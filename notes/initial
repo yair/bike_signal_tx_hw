@@ -1,0 +1,10 @@
+This unit is mounted on the handlebar and used to allows the user to signal turning.
+There are two options. The minimalish one is something the size (and power requirements) of a garage door opener, with two buttons, one/two indicator LEDs, optionally a buzzer to remind the user to turn signals off, and a tiny RF transmitter to bridge the gap to the tail unit.
+The maximalish version adds two big orange LEDs on the bar ends. This will require more power but will open up the option to host a rechargable batter inside the handlebar. Wiring will be done unside the handle bar and over it under the wrap. Recharging both this unit and the tail one is a bit of a hassle, but at least we get somehwere to install the 10~30cm antenna (which can probably be kept coiled for a ~1m transmission distance). We start with the minimalish one.
+RF transmitter options -
+1. nRF24L01 - The overkill option. Well documented and boards are readily available, though.
+2. RF transmission of garage door openers are based on the Microchip HCS361 chip, which seems very suitable. Oddly more expensive than the nRF. 8| SC2272 is another option, without the crypto stuff. But these are the encoders, not the RT TXer itself. :/
+Based on a SAW resonator and a switching transistor. The receiver is basically the same, but with added couple of opamps and a PLL. Since we have an MCU on both ends, we don't need a coding chip.
+Both Tx and Rx need a single GPIO pin, that is good. The Tx needs 3.5-12V, which is not good for primary lithium (but maybe we can change it by changing to a lower V_GS_on FET, and the Rx insists on 5V, which is annoying (but we need it anyway for the neopixels). https://lastminuteengineers.com/433mhz-rf-wireless-arduino-tutorial/ for reference.
+Ok, let's use these, get premade boards for prototyping, and markup 1 GPIO for transmitting data.
+Now we come to the choice of MCU. We need two GPIOs for the buttons, one for RF, one buzzer and two for LEDs. So 6. Theoretically, a ATTiny13 should be enough. We should be careful that the onboard parts do not interfere with programming.
